@@ -2,23 +2,50 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+#region 아래 설명
+/*
+ [시간을 나타내는 구조체]
 
+[ TimeSpan.FromMilliseconds(10) ]
+* TimeSpan은 시간 간격을 나타내는 .NET의 구조체
+* FromMilliseconds는 TimeSpan 구조체에 있는 함수인데, 숫자(ms)를 넣으면 그에 해당하는 TimeSpan을 만들어줘.
+* 여기선 10ms(밀리초, 천분의 1초)를 TimeSpan 객체로 만들어서 왼쪽 변수에 넣고 있어. 
+
+[ TimeSpan threadSleepTimeSpan = TimeSpan.FromMilliseconds(10); ]
+* 쓰레드를 10밀리초 동안 잠깐 멈추는 시간을 설정한 변수
+* 주로 게임 루프에서 너무 빠르게 돌지 않도록 딜레이를 줄 때 사용
+
+[ TimeSpan helicopterTimeSpan = TimeSpan.FromMilliseconds(70); ]
+* 헬리콥터가 움직이거나 애니메이션이 바뀌는 주기를 70ms로 설정
+* 0.07초마다 한 번씩 갱신
+ 
+ 
+[ TimeSpan ufoMovementTimeSpan = TimeSpan.FromMilliseconds(100); ]
+* UFO의 움직임 주기를 100ms, 즉 0.1초마다 이동하게끔 정한 거야.
+
+[ TimeSpan enemySpawnTimeSpan = TimeSpan.FromSeconds(1.75); ]
+* 적(enemy)이 생성되는 간격을 1.75초로 설정
+* 1.75초마다 새로운 적 등장
+ 
+ 100ms(=0.1초)
+ */
+#endregion
 TimeSpan threadSleepTimeSpan = TimeSpan.FromMilliseconds(10);
 TimeSpan helicopterTimeSpan = TimeSpan.FromMilliseconds(70);
 TimeSpan ufoMovementTimeSpan = TimeSpan.FromMilliseconds(100);
 TimeSpan enemySpawnTimeSpan = TimeSpan.FromSeconds(1.75);
 
-List<UFO> ufos = new();
-List<Bullet> bullets = new();
-List<Explosion> explosions = new();
-Stopwatch stopwatchGame = new();
-Stopwatch stopwatchUFOSpawn = new();
-Stopwatch stopwatchHelicopter = new();
-Stopwatch stopwatchUFO = new();
+List<UFO> ufos = new();//ufo 객체 여러 개 저장
+List<Bullet> bullets = new(); //총알 저장하는 리스트 -> 한 번에 여러개 날아갈 수 있음
+List<Explosion> explosions = new(); //폭발 효과도 여러개 발생할 수 있기 때문에 리스트로 만듦(이미지)
+Stopwatch stopwatchGame = new(); //Stopwatch은 시간 측정용 클래스(게임 전체 시간) -> 초시계처럼 시간 측정
+Stopwatch stopwatchUFOSpawn = new(); //UFO가 언제 등장했는지, 다음 등장까지 얼마나 남았는지
+Stopwatch stopwatchHelicopter = new(); //헬리콥터 움직임의 시간 체크용 타이머
+Stopwatch stopwatchUFO = new(); //UFO가 움직이는 간격을 측정할 때 사용할 타이머
 
-int score = 0;
-bool bulletFrame = default;
-bool helicopterRender = default;
+int score = 0;//점수집계(점수 저장)
+bool bulletFrame = default; //총알을 그릴 지 말지 결정하는데 쓰일 수 있는 상태 변수
+bool helicopterRender = default; //헬리콥터를 그릴지 말지(또는 깜빡이는 효과 등)에 관련된 상태를 저장하는 변수
 
 #region Ascii Renders
 
@@ -124,7 +151,7 @@ string[] explosionRenders =
 #endregion
 
 Console.Clear();
-if (OperatingSystem.IsWindows())
+if (OperatingSystem.IsWindows())//OperatingSystem.IsWindows()	현재 프로그램이 윈도우 운영체제에서 실행되고 있는지 확인하는 함수
 {
     Console.WindowWidth = 100;
     Console.WindowHeight = 30;
@@ -134,11 +161,13 @@ int height = Console.WindowHeight;
 int width = Console.WindowWidth;
 Player player = new() { Left = 2, Top = height / 2, };
 
-Console.CursorVisible = false;
-stopwatchGame.Restart();
+Console.CursorVisible = false;  //커서(깜빡이는 | 모양) 를 보이지 않게 설정 + 깔끔한 게임 화면을 위해 커서 숨김 처리
+                                //Elapsed	Stopwatch가 작동한 시간의 총합(TimeSpan)
+stopwatchGame.Restart();       //Restart()는 Elapsed 시간을 0으로 초기화하고 다시 작동 시작
 stopwatchUFOSpawn.Restart();
-stopwatchHelicopter.Restart();
+stopwatchHelicopter.Restart(); //Restart()	메서드 (함수)	시간 초기화 + 다시 시작
 stopwatchUFO.Restart();
+                               //Stopwatch	클래스 (타입)	시간 측정 기능을 제공하는 객체
 while (true)
 {
     #region Window Resize

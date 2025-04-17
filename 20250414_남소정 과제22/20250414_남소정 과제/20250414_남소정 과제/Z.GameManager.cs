@@ -35,7 +35,7 @@ namespace GGameManager// 여기에서 직업 선택이랑 해당 직업을 playe
 {
     internal class GameManager
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 
             Console.WriteLine("플레이어 이름을 입력해주세요 : ");

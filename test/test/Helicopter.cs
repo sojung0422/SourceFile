@@ -366,21 +366,21 @@ while (true)
 
     Thread.Sleep(threadSleepTimeSpan);
 }
-
-void Render(string @string, bool renderSpace = false)
+//를 붙이면 -> “얘는 변수 이름으로 쓸게!
+void Render(string @string, bool renderSpace = false)//문자열을 콘솔 화면에 출력하는 함수. -> bool renderSpace = false	공백도 출력할지 여부 (false면 공백 무시)
 {
-    int x = Console.CursorLeft;
-    int y = Console.CursorTop;
-    foreach (char c in @string)
+    int x = Console.CursorLeft; //현재 커서의 가로 위치 저장 -> Console.CursorLeft; 현재 커서의 x 좌표 (가로)
+    int y = Console.CursorTop; //현재 커서의 세로 위치 저장 -> 현재 커서의 y 좌표 (세로)
+    foreach (char c in @string) //문자열을 문자(char) 단위로 순회
         if (c is '\n')
-            Console.SetCursorPosition(x, ++y);
+            Console.SetCursorPosition(x, ++y); //커서를 지정한 위치로 이동 -> x는 가로이기 때문에 유지(가로도 움직이고 싶으면 x도 움++로 바꾸면 되지 않을까?) 
         else if (Console.CursorLeft < width - 1 && (c is not ' ' || renderSpace))
-            Console.Write(c);
+            Console.Write(c); //콘솔에 문자 c를 출력
         else if (Console.CursorLeft < width - 1 && Console.CursorTop < height - 1)
             Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
 }
 
-void Erase(string @string)
+void Erase(string @string) //Render로 출력한 글자를 같은 자리에 공백으로 덮어서 지움 -> 총알 등 이동이 있을 때(애니메이션 전환)
 {
     int x = Console.CursorLeft;
     int y = Console.CursorTop;
@@ -393,7 +393,7 @@ void Erase(string @string)
             Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
 }
 
-bool CollisionCheck((string String, int Left, int Top) A, (string String, int Left, int Top) B)
+bool CollisionCheck((string String, int Left, int Top) A, (string String, int Left, int Top) B) //두 문자열 객체가 서로 콘솔 위치상 겹치는지(충돌) 확인
 {
     char[,] buffer = new char[width, height];
     int left = A.Left;

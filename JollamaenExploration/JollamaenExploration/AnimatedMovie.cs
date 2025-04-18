@@ -129,6 +129,11 @@ namespace NAnimatedMovie
             @"  /  | ",
         	#endregion
         ];
- 
+        public string hurdleFrame =
+        #region Frame
+           @"  ___  " + '\n' +
+           @" |   | " + '\n' +
+           @" | . | ";
+        #endregion
     }
 }

@@ -9,17 +9,17 @@
 
   <ItemGroup>
     <Compile Remove="Duck.cs" />
+    <Compile Remove="Fight.cs" />
     <Compile Remove="Gravitation.cs" />
     <Compile Remove="Helicopter.cs" />
-    <Compile Remove="Jomp.cs" />
     <Compile Remove="Music.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Duck.cs" />
+    <None Include="Fight.cs" />
     <None Include="Gravitation.cs" />
     <None Include="Helicopter.cs" />
-    <None Include="Jomp.cs" />
     <None Include="Music.cs" />
   </ItemGroup>
 

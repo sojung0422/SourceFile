@@ -39,7 +39,7 @@ namespace NPreferences//환경 설정
         {
             Console.Clear();//화면 지움
 
-            if(OperatingSystem.IsWindows())//윈도우 시스템에서 실행되고 있다면
+            if (OperatingSystem.IsWindows())//윈도우 시스템에서 실행되고 있다면
             {
                 Console.WindowWidth = 100; //윈도우 가로 길이 100
                 Console.WindowHeight = 30; //윈도우 높이 30

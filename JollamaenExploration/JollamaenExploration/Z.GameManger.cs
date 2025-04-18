@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NRunning;
+using NAnimatedMovie;
+using NPreferences;
 
 namespace NGameManger
 {
     class GameManger
     {
-        
+        static void Main()
+        {
+            Running runnig = new Running();
+            runnig.Run();
+            
+        }
 
 
     }
